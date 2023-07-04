@@ -12,11 +12,10 @@ import {
 	LiteralUnion,
 } from "next-auth/react";
 import { BuiltInProviderType } from "next-auth/providers";
-import { sign } from "crypto";
 
 export const Nav = () => {
-	// const isUserLoggedIn = useSession().data;
-	const isUserLoggedIn = true;
+	const { data: session } = useSession();
+	// const isUserLoggedIn = true;
 
 	const [providers, setProviders] = useState<Record<
 		LiteralUnion<BuiltInProviderType, string>,
@@ -48,10 +47,10 @@ export const Nav = () => {
 					className="object-contain"
 				/>
 				<p className="logo_text">Promptopia</p>
-			</Link>
+			</Link>  
 			{/* Desktop Navigation */}
 			<div className="sm:flex hidden">
-				{isUserLoggedIn ? (
+				{session?.user ? (
 					<div className="flex gap-3 md:gap-5">
 						<Link href="/create-prompt" className="black_btn">
 							Create Post
@@ -65,7 +64,7 @@ export const Nav = () => {
 						</button>
 						<Link href="/profile">
 							<Image
-								src="/assets/images/logo.svg"
+								src={session?.user.image as string}
 								className="rounded-full"
 								width={37}
 								height={37}
@@ -89,13 +88,14 @@ export const Nav = () => {
 					</>
 				)}
 			</div>
+			
 			{/* Mobile Navigation */}
 			<div className="sm:hidden flex relative">
-				{isUserLoggedIn ? (
+				{session?.user ? (
 					<div className="flex">
 						{" "}
 						<Image
-							src="/assets/images/logo.svg"
+							src={session?.user.image as string}
 							width={37}
 							height={37}
 							className="rounded-full"
