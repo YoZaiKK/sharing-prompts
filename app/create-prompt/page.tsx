@@ -8,14 +8,37 @@ import { Form } from "@components/";
 
 const CreatePrompt = () => {
 	const [submitting, setSubmitting] = useState(false);
-  
+
 	const [post, setPost] = useState({
 		prompt: "",
 		tag: "",
 	});
 
-	const createPrompt = async (e) => {
-		return;
+	const router = useRouter();
+
+	const createPrompt = async (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault(); // prevent default form submission,  that is, page refresh
+		setSubmitting(true); //  we can use it as a loading indicator later on
+		try {
+			const res = await fetch("/api/prompt/new", {
+				// this is the API route we created
+				method: "POST",
+				// headers: {
+				// 	"Content-Type": "application/json",
+				// },
+				body: JSON.stringify({
+					prompt: post.prompt,
+					userId: session?.user.id,
+					tag: post.tag,
+				}),
+			});
+
+			if (res.ok) router.push("/");
+		} catch (error: any) {
+			throw Error(error.message);
+		} finally {
+      setSubmitting(false);
+		}
 	};
 
 	return (
