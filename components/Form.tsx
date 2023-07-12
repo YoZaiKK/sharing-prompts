@@ -58,7 +58,7 @@ export const Form: React.FC<FormProps> = ({
 						</span>
 					</span>
 					<input
-						value={post.prompt}
+						value={post.tag }
 						onChange={(e) => setPost({ ...post, tag: e.target.value })}
 						placeholder="#tag"
 						required

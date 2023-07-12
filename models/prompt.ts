@@ -1,7 +1,7 @@
 import mongoose, { Schema, model, models } from 'mongoose';
+import { Post as PromptType } from '@types';
 
-
-const PromptSchema = new Schema({
+const PromptSchema: Schema<PromptType> = new Schema({
   creator: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',

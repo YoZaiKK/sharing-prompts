@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-import { Form } from "@components/";
+import { Form } from "@components/"; 
 
 const CreatePrompt = () => {
 	const [submitting, setSubmitting] = useState(false);
@@ -15,6 +15,7 @@ const CreatePrompt = () => {
 	});
 
 	const router = useRouter();
+	const { data: session } = useSession();
 
 	const createPrompt = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault(); // prevent default form submission,  that is, page refresh
@@ -28,7 +29,7 @@ const CreatePrompt = () => {
 				// },
 				body: JSON.stringify({
 					prompt: post.prompt,
-					userId: session?.user.id,
+					userId: session?.user?.id,
 					tag: post.tag,
 				}),
 			});
@@ -37,7 +38,7 @@ const CreatePrompt = () => {
 		} catch (error: any) {
 			throw Error(error.message);
 		} finally {
-      setSubmitting(false);
+			setSubmitting(false);
 		}
 	};
 
