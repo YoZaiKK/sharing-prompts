@@ -27,7 +27,8 @@ export const Form: React.FC<FormProps> = ({
 	return (
 		<section className="w-full max-w-full flex-initial flex-col">
 			<h1 className="head_text text-left">
-				<span className="blue_gradient">{type} Post</span>
+				{type}
+				<span className="blue_gradient"> Post</span>
 			</h1>
 			<p className="desc text-left max-w-md">
 				{type} and share amazing prompts with the, world, and let your
@@ -58,7 +59,7 @@ export const Form: React.FC<FormProps> = ({
 						</span>
 					</span>
 					<input
-						value={post.tag }
+						value={post.tag}
 						onChange={(e) => setPost({ ...post, tag: e.target.value })}
 						placeholder="#tag"
 						required

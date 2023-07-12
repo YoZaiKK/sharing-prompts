@@ -19,6 +19,7 @@ export const Feed = () => {
 	const [posts, setPosts] = useState([]); // [ { prompt: "hello", tag: "world" }, { prompt: "hello", tag: "world" }
 
 	const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {};
+
 	useEffect(() => {
 		const fetchData = async () => {
 			const res = await fetch("/api/prompt");
