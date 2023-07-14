@@ -6,7 +6,7 @@ import { SessionProvider } from "next-auth/react";
 
 interface ProviderProps {
 	children: React.ReactNode;
-	session: any;
+	session?: any;
 }
 
 export const Provider = ({ children, session }: ProviderProps) => {
