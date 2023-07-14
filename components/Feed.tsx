@@ -2,7 +2,20 @@
 
 import { useState, useEffect } from "react";
 
-import { PromptCard } from "@components/";
+import { PromptCard } from "@components/"; 
+
+
+interface Item{
+	id: string;
+	prompt: string;
+	tag: string;
+	creator: {
+		_id: string;
+		username: string;
+		image: string;
+	};
+}
+
 
 const PromptCardList = ({ data, handleTagClick }: any) => {
 	return (
@@ -18,11 +31,11 @@ export const Feed = () => {
 	const [allPosts, setAllPosts] = useState([]);
 
 	const [searchText, setSearchText] = useState("");
-	const [searchTimeout, setSearchTimeout] = useState<string | number | Timeout | undefined>(null);
+	const [searchTimeout, setSearchTimeout] = useState<any>(null);
 	const [searchedResults, setSearchedResults] = useState([]);
 
 	// const [posts, setPosts] = useState([]); // [ { prompt: "hello", tag: "world" }, { prompt: "hello", tag: "world" }
-	const handleSearchChange = (e) => {
+	const handleSearchChange = (e: any) => {
 		clearTimeout(searchTimeout);
 		setSearchText(e.target.value);
 
@@ -56,7 +69,7 @@ export const Feed = () => {
 	const filterPrompts = (searchtext: string) => {
 		const regex = new RegExp(searchtext, "i"); // 'i' flag for case-insensitive search
 		return allPosts.filter(
-			(item) =>
+			(item: Item) =>
 				regex.test(item.creator.username) ||
 				regex.test(item.tag) ||
 				regex.test(item.prompt)

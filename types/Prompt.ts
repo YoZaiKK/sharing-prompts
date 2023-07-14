@@ -1,7 +1,12 @@
 import { Document, Schema, model } from 'mongoose';
 
 export interface Post extends Document {
-  creator: Schema.Types.ObjectId;
+  creator: {
+    username: string;
+    _id: string;
+    image: string;
+    email: string;
+  }
   prompt: string;
   tag: string;
 }

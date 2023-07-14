@@ -7,6 +7,13 @@ import { useRouter } from "next/navigation";
 import { Profile } from "@components/";
 import { Post } from "@types";
 
+interface CustomUser {
+  id?: string;
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+}
+
 const ProfilePage = () => {
 	const { data: session } = useSession();
 	const [posts, setPosts] = useState([]);
@@ -14,9 +21,11 @@ const ProfilePage = () => {
 
 	useEffect(() => {
     const fetchData = async () => { 
-      if (session?.user?.id) {
+			const user = session?.user as CustomUser;
+
+      if (user?.id) {
         try {
-          const res = await fetch(`/api/users/${session.user.id}/posts`);
+          const res = await fetch(`/api/users/${user.id}/posts`);
           const data = await res.json();
           setPosts(data);
         } catch (error: any) {

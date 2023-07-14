@@ -5,13 +5,13 @@ import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useRouter, usePathname } from "next/navigation";
 
-import { Post } from "@types";
+import { Post, CustomUser } from "@types";
 
 interface Props {
 	post: Post;
-	handleTagClick: (tag: string) => void;
-	handleEdit: () => void;
-	handleDelete: () => void;
+	handleTagClick?: (tag: string) => void;
+	handleEdit?: () => void;
+	handleDelete?: () => void;
 }
 
 export const PromptCard = ({
@@ -32,9 +32,9 @@ export const PromptCard = ({
 		setTimeout(() => setIsCopied(""), 3000);
 	};
 
-	const handleProfileClick = () => { 
-
-		if (post.creator._id === session?.user.id) return router.push("/profile");
+	const user = session?.user as CustomUser;
+	const handleProfileClick = () => {
+		if (post.creator._id === user.id) return router.push("/profile");
 
 		router.push(`/profile/${post.creator._id}?name=${post.creator.username}`);
 	};
@@ -82,7 +82,7 @@ export const PromptCard = ({
 			>
 				#{post.tag}
 			</p>
-			{session?.user.id === post.creator._id && pathName === "/profile" && (
+			{user.id === post.creator._id && pathName === "/profile" && (
 				<div className="mt-5 flex justify-center gap-4 border-t border-gray-100 p-3">
 					<p
 						className="font-inter text-sm green_gradient cursor-pointer"
