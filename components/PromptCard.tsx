@@ -5,7 +5,14 @@ import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useRouter, usePathname } from "next/navigation";
 
-import { Post, CustomUser } from "@types";
+import { Post } from "@types";
+
+export interface CustomUser {
+  id: string;
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+}
 
 interface Props {
 	post: Post;
@@ -82,7 +89,7 @@ export const PromptCard = ({
 			>
 				#{post.tag}
 			</p>
-			{user.id === post.creator._id && pathName === "/profile" && (
+			{session?.user.id === post.creator._id && pathName === "/profile" && (
 				<div className="mt-5 flex justify-center gap-4 border-t border-gray-100 p-3">
 					<p
 						className="font-inter text-sm green_gradient cursor-pointer"
