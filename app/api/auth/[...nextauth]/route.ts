@@ -9,6 +9,14 @@ import { connectToDatabase } from "@utils/database";
 //   clientSecret: process.env.GOOGLE_CLIENT_SECRET
 // });
 
+interface CustomProfile {
+  id: string;
+  name: string;
+  email: string;
+  image: string;
+  picture: string;
+}
+
 const handler = NextAuth({
   providers: [
     GoogleProvider({
@@ -41,10 +49,12 @@ const handler = NextAuth({
 
         // If not, create user
         if (!userExists) {
+          const customProfile = profile as CustomProfile;
+          const image = customProfile.picture || '';
           await User.create({
             email: profile?.email,
             username: profile?.name?.replaceAll(' ', '').toLowerCase().replaceAll(/[áéíóúÁÉÍÓÚ]/g, (match) => {
-              const map = {
+              const map: any = {
                 á: 'a',
                 é: 'e',
                 í: 'i',
@@ -54,7 +64,7 @@ const handler = NextAuth({
               return map[match];
             })
             ,
-            image: profile.picture,
+            image,
           });
         }
 
