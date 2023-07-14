@@ -14,12 +14,12 @@ const ProfilePage = () => {
 
 	useEffect(() => {
     const fetchData = async () => {
-      if (session?.user.id) {
+      if (session?.user?.id) {
         try {
           const res = await fetch(`/api/users/${session.user.id}/posts`);
           const data = await res.json();
           setPosts(data);
-        } catch (error) {
+        } catch (error: any) {
           throw new Error(error.message);
         }
       }
@@ -38,7 +38,7 @@ const ProfilePage = () => {
 		);
 		if (hasConfirmed) {
 			try {
-				const res = await fetch(`/api/prompt/${post._id.toString()}`, {
+				await fetch(`/api/prompt/${post._id.toString()}`, {
 					method: "DELETE",
 				});
 				const filteredPosts = posts.filter((p: Post) => p._id !== post._id);
