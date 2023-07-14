@@ -13,15 +13,20 @@ const ProfilePage = () => {
 	const router = useRouter();
 
 	useEffect(() => {
-		const fetchData = async () => {
-			// console.log(session?.user.id);
-			const res = await fetch(`/api/users/${session?.user.id}/posts`);
-			const data = await res.json();
-			setPosts(data);
-		};
+    const fetchData = async () => {
+      if (session?.user.id) {
+        try {
+          const res = await fetch(`/api/users/${session.user.id}/posts`);
+          const data = await res.json();
+          setPosts(data);
+        } catch (error) {
+          throw new Error(error.message);
+        }
+      }
+    };
 
-		if (session?.user.id) fetchData();
-	}, []);
+    fetchData();
+  }, [session]);
 
 	const handleEdit = (post: Post) => {
 		router.push(`/update-prompt?id=${post._id}`);
