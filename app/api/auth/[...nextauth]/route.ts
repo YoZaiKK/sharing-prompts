@@ -22,7 +22,7 @@ const handler = NextAuth({
         if (user && session.user) {
           const sessionUser = await User.findOne({ email: session.user.email });
           if (sessionUser) {
-            session.user.id = sessionUser._id.toString();
+            session.user = Object.assign(session.user, { id: sessionUser._id.toString() });
           }
         }
         return session;
