@@ -1,4 +1,4 @@
-import { Document, Schema, model } from 'mongoose';
+import { Document } from 'mongoose';
 
 export interface Post extends Document {
   creator: {

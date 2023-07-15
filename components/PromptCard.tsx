@@ -16,9 +16,9 @@ interface Props {
 
 interface CustomUser {
 	id: string;
-	name?: string | null;
-	email?: string | null;
-	image?: string | null;
+	name: string;
+	email: string;
+	image: string;
 }
 
 export const PromptCard = ({
@@ -56,7 +56,7 @@ export const PromptCard = ({
 					onClick={handleProfileClick}
 				>
 					<Image
-						src={post.creator.image}
+						src={post.creator?.image as string}
 						alt="user_image"
 						width={40}
 						height={40}
@@ -64,10 +64,10 @@ export const PromptCard = ({
 					/>
 					<div className="flex flex-col">
 						<h3 className="font-satoshi font-semibold text-gray-900">
-							{post.creator.username}
+							{post.creator?.username}
 						</h3>
 						<p className="font-inter text-sm text-gray-500">
-							{post.creator.email}
+							{post.creator?.email}
 						</p>
 					</div>
 				</div>
@@ -91,7 +91,7 @@ export const PromptCard = ({
 			>
 				#{post.tag}
 			</p>
-			{userId === post.creator._id &&
+			{userId === post.creator?._id &&
 				pathName === "/profile" &&
 				session?.user && (
 					<div className="mt-5 flex justify-center gap-4 border-t border-gray-100 p-3">

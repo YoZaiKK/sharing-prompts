@@ -1,6 +1,6 @@
 export interface CustomUser {
   id: string;
-  name: string | null;
-  email: string | null;
-  image: string | null;
+  name: string ;
+  email: string ;
+  image: string ;
 }
