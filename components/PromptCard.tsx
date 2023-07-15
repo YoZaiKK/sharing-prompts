@@ -7,18 +7,18 @@ import { useRouter, usePathname } from "next/navigation";
 
 import { Post } from "@types";
 
-export interface CustomUser {
-  id: string;
-  name?: string | null;
-  email?: string | null;
-  image?: string | null;
-}
-
 interface Props {
 	post: Post;
 	handleTagClick?: (tag: string) => void;
 	handleEdit?: () => void;
 	handleDelete?: () => void;
+}
+
+interface CustomUser {
+	id: string;
+	name?: string | null;
+	email?: string | null;
+	image?: string | null;
 }
 
 export const PromptCard = ({
@@ -39,9 +39,11 @@ export const PromptCard = ({
 		setTimeout(() => setIsCopied(""), 3000);
 	};
 
-	const user = session?.user as CustomUser;
+	const user = session?.user as CustomUser | undefined;
+	const userId = user?.id;
+
 	const handleProfileClick = () => {
-		if (post.creator._id === user.id) return router.push("/profile");
+		if (post.creator._id === userId) return router.push("/profile");
 
 		router.push(`/profile/${post.creator._id}?name=${post.creator.username}`);
 	};
@@ -89,22 +91,24 @@ export const PromptCard = ({
 			>
 				#{post.tag}
 			</p>
-			{session?.user.id === post.creator._id && pathName === "/profile" && (
-				<div className="mt-5 flex justify-center gap-4 border-t border-gray-100 p-3">
-					<p
-						className="font-inter text-sm green_gradient cursor-pointer"
-						onClick={handleEdit}
-					>
-						Edit
-					</p>
-					<p
-						className="font-inter text-sm orange_gradient cursor-pointer"
-						onClick={handleDelete}
-					>
-						Delete
-					</p>
-				</div>
-			)}
+			{userId === post.creator._id &&
+				pathName === "/profile" &&
+				session?.user && (
+					<div className="mt-5 flex justify-center gap-4 border-t border-gray-100 p-3">
+						<p
+							className="font-inter text-sm green_gradient cursor-pointer"
+							onClick={handleEdit}
+						>
+							Edit
+						</p>
+						<p
+							className="font-inter text-sm orange_gradient cursor-pointer"
+							onClick={handleDelete}
+						>
+							Delete
+						</p>
+					</div>
+				)}
 		</div>
 	);
 };
